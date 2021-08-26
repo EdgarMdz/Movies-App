@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:sharedTransition="clr-namespace:Plugin.SharedTransitions;assembly=Plugin.SharedTransitions"
+             x:Class="Movies_App.MainView"
+             NavigationPage.HasNavigationBar="False"
+             sharedTransition:SharedTransitionNavigationPage.TransitionSelectedGroup="{Binding SelectedMovieID}">
+    <ContentPage.Content>
+        <StackLayout Margin="0,40,0,0">
+            <Label Text="Movie Database"
+                   FontSize="Title"
+                   FontAttributes="Bold"
+                   Padding="10"/>
+            <SearchBar Text="{Binding SearchTerm}"
+                       SearchCommand="{Binding PerformSearchCommand}"/>
+            <CollectionView ItemsSource="{Binding Items}"
+                            SelectionMode="Single"
+                            SelectedItem="{Binding SelectedMovie}"
+                            SelectionChangedCommand="{Binding MovieChangedCommand}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout>
+                            <Frame Padding="0"
+                               CornerRadius="50"
+                               Margin="10,20,10,0"
+                               HorizontalOptions="Center"
+                               IsClippedToBounds="True">
+                                <Grid>
+                                    <ffimageloading:CachedImage LoadingPlaceholder="https://static.thenounproject.com/png/33000-200.png" 
+                                                                Source="{Binding ImageUrl}"
+                                                                Aspect="AspectFill"
+                                                                HeightRequest="300"
+                                                                sharedTransition:Transition.Name="MovieImage"
+                                                                sharedTransition:Transition.Group="{Binding ImdbID}"/>
+                                    <Label VerticalOptions="End" 
+                                           FontSize="38" 
+                                           TextColor="White"
+                                           BackgroundColor="Black" 
+                                           Text="{Binding Title}" 
+                                           Opacity="0.85"
+                                           VerticalTextAlignment="Center"
+                                           Padding="15,0,5,0" 
+                                           HeightRequest="70"
+                                           LineBreakMode="TailTruncation"/>
+                                </Grid>
+                            </Frame>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.EmptyView>
+                    <StackLayout HorizontalOptions="Center">
+                    <Image Source="data:image/jpeg;base64,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"
+                           WidthRequest="200"
+                           HeightRequest="200"/>
+                    <Label Text="Enter your search term above"
+                           HorizontalTextAlignment="Center"
+                           Padding="20,10,10,10"
+                           FontSize="24"
+                           TextColor="Gray"/>
+                    </StackLayout>
+                </CollectionView.EmptyView>
+            </CollectionView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ffimageloading ="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:local="clr-namespace:Movies_App.Common.Converters" 
+             xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:sharedTransitions="clr-namespace:Plugin.SharedTransitions;assembly=Plugin.SharedTransitions"
+             x:Class="Movies_App.Modules.MovieDetails.MovieDetailsView"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:BoolToImageConverter x:Key="boolToFavorite" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ScrollView VerticalOptions="FillAndExpand"
+                    BackgroundColor="White">
+            <StackLayout>
+                <Grid>
+                    <ffimageloading:CachedImage Source="{Binding MovieData.ImageUrl}"                                       
+                                                Aspect="AspectFill"
+                                                HeightRequest="500"
+                                                sharedTransitions:Transition.Name="MovieImage"/>
+                    <Frame WidthRequest="20"
+                       HeightRequest="20"
+                       Margin="0,50,30,0"
+                       VerticalOptions="Start"
+                       HorizontalOptions="End"
+                       CornerRadius="50">
+                        <ImageButton Source="https://icons-for-free.com/iconfiles/png/512/CLOSE-131994911256789607.png"
+                             BackgroundColor="White"
+                             Aspect="Fill"
+                             Command="{Binding GoBackCommand}"/>
+                    </Frame>
+                </Grid>
+                <Label Text="{Binding MovieData.Title}"
+                       Padding="20,8,0,0"
+                       FontAttributes="Bold"
+                       FontSize="Title"/>
+                <Grid>
+                    <Label Text="{Binding MovieData.Year, StringFormat='Year: {0}'}"
+                       Padding="20,8,0,0"
+                       TextColor="Gray"/>
+                    <ImageButton x:Name="imageBuutton"
+                                 Source="{Binding IsFavorite, Converter={StaticResource boolToFavorite}}"
+                                 HorizontalOptions="End"
+                                 Margin="0,0,30,0"
+                                 WidthRequest="20"
+                                 HeightRequest="20"
+                                 BackgroundColor="White"
+                                 Command="{Binding FavoriteCommand}"
+                                 Clicked="imageBuutton_Clicked"/>
+                </Grid>
+                <toolkit:Expander>
+                    <toolkit:Expander.Header>
+                        <Label Text="Plot (Click to expand)"
+                               Padding="20"
+                               FontAttributes="Bold"
+                               FontSize="Medium"
+                               TextColor="Gray"/>
+                    </toolkit:Expander.Header>
+                    <Label Text="{Binding MovieInformation.Plot}"
+                           Padding="20,0"
+                           TextColor="Gray"/>
+                </toolkit:Expander>
+                <toolkit:Expander>
+                    <toolkit:Expander.Header>
+                        <Label Text="Cast (Click to expand)"
+                               Padding="20"
+                               FontAttributes="Bold"
+                               FontSize="Medium"
+                               TextColor="Gray"/>
+                    </toolkit:Expander.Header>
+                    <Label Text="{Binding MovieInformation.Actors}"
+                           Padding="20,0"
+                           TextColor="Gray"/>
+                </toolkit:Expander>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
